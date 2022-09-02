@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const mapkey = "OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77" //官方案例的key，换成自己的
 
@@ -85,7 +85,7 @@ function App() {
             "marker": new TMap.MarkerStyle({ 
                 "width": 25,  // 点标记样式宽度（像素）
                 "height": 25, // 点标记样式高度（像素）
-                // "src": `${process.env.PUBLIC_URL}/logo192.png`,  //图片路径
+                "src": `${process.env.PUBLIC_URL}/logo192.png`,  //图片路径，不设置会使用腾讯地图默认的红标
                 //焦点在图片中的像素位置，一般大头针类似形式的图片以针尖位置做为焦点，圆形点以圆心位置为焦点
                 "anchor": { x: 16, y: 32 }  
             }) 
