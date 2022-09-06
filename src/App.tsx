@@ -102,6 +102,8 @@ function App() {
       mapLayer.current.on("click", function(e: any) {
         console.log('onClickMarker', e)
       })
+      //可以删除marker点击事件，需要传入函数同一个函数
+      // mapLayer.current.off("click", ()=>{})
     }).catch(err => {
       console.log('err', err)
     })
