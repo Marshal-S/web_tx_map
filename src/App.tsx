@@ -5,11 +5,10 @@ const mapkey = "OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77" //官方案例的key，换�
 var TMap: any
 var qq: any
 
-export const TMapGL = (key: string): Promise<any> => {
+const TMapGL = (key: string): Promise<any> => {
   return new Promise(function(resolve, reject) {
     var script = document.createElement('script')
     script.type = 'text/javascript'
-    script.text = 'TMap'
     script.src = 'https://map.qq.com/api/gljs?v=1.exp&key=' + key
     script.onerror = (err) => reject(err)
     script.onload = (e) => {
@@ -20,7 +19,7 @@ export const TMapGL = (key: string): Promise<any> => {
   })
 }
 
-export const TLocationGL = (): Promise<any> => {
+const TLocationGL = (): Promise<any> => {
   return new Promise(function(resolve, reject) {
     var script = document.createElement('script')
     script.type = 'text/javascript'
