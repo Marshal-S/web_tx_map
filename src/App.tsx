@@ -99,6 +99,9 @@ function App() {
             }
         }]
       });
+      mapLayer.current.on("click", function(e: any) {
+        console.log('onClickMarker', e)
+      })
     }).catch(err => {
       console.log('err', err)
     })
