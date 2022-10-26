@@ -40,6 +40,7 @@ const TLocationGL = (): Promise<any> => {
 function App() {
   const myMap = useRef<any>(null)
   const mapLayer = useRef<any>(null)
+  const mapLabelsLayer = useRef<any>(null)
 
   useEffect(() => {
     initMap()
@@ -75,6 +76,9 @@ function App() {
       let map = new TMap.Map(dom, myOptions);
       //Map实例创建后，通过on方法绑定点击事件
       map.on("click", onClickMap)
+      //同时也可以监听缩放相关，通过getZoom方法获取当前缩放指数，以控制 label的显示隐藏
+      //可以通过提前生成 label 的方式，在不同缩放等级时控制 label 显隐即可
+      map.on('zoom', onMapZoom);
       myMap.current = map
 
       //创建并初始化MultiMarker
@@ -106,10 +110,34 @@ function App() {
       })
       //可以删除marker点击事件，需要传入函数同一个函数
       // mapLayer.current.off("click", ()=>{})
+
+      mapLabelsLayer.current = new TMap.MultiLabel({
+        id: 'label-layer',
+        map: map, //设置折线图层显示到哪个地图实例中
+        //文字标记样式
+        styles: {
+            'label': new TMap.LabelStyle({
+                'color': '#1b90ff', //颜色属性
+                'size': 14, //文字大小属性
+                'offset': { x: 0, y: -38 }, //文字偏移属性单位为像素
+                'angle': 0, //文字旋转属性
+                'alignment': 'center', //文字水平对齐属性
+                'verticalAlignment': 'middle' //文字垂直对齐属性
+            })
+        },
+        //文字标记数据
+        geometries: []
+      });
+
     }).catch(err => {
       console.log('err', err)
     })
   }
+
+  const onMapZoom = (e: any) => {
+    //地图缩放更新后，我们个根据zoom是否显示 marker、label
+    myMap.current.getZoom()
+}
 
   const onClickMap = (e: any) => {
     console.log('click', e)
