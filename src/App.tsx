@@ -10,6 +10,8 @@ const TMapGL = (key: string): Promise<any> => {
     var script = document.createElement('script')
     script.type = 'text/javascript'
     script.src = 'https://map.qq.com/api/gljs?v=1.exp&key=' + key
+    //如果需要用到一些附加服务信息，需要添加 &libraries=service
+    // script.src = 'https://map.qq.com/api/gljs?v=1.exp&libraries=service&key=' + key
     script.onerror = (err) => reject(err)
     script.onload = (e) => {
       TMap = (window as any).TMap
@@ -163,6 +165,23 @@ function App() {
     console.log('markers', markers)
     // mapLayer.current.add(markers)
     mapLayer.current.setGeometries(markers)
+  }
+
+  //搜索服务
+  const searchByText = (keyword: string, cityName: string = '天津') => {
+    //初始化service附加服务的 Search 搜索类，这里需要调用 Search 的构造方法
+    let search = new TMap.service.Search({pageSize: 20})
+
+    //调用Search中的 searchRegion 搜索函数，其他也也是类似
+    search.searchRegion({
+        keyword,
+        cityName,
+        autoExtend: true //当前范围没搜索到，自动慢慢扩张到全城市
+    }).then((res : any) => {
+        console.log('搜索结果', res)
+    }).catch((err: any) => {
+        console.log(err)
+    })
   }
 
   return (
