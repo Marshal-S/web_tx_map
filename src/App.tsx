@@ -51,7 +51,16 @@ function App() {
     TLocationGL().then(res => {
       console.log('qq', (window as any).qq)
       var geolocation = new qq.maps.Geolocation(mapkey, "web-map-demo");
+      //单次相对精准定位方法，三个参数，分别是成功回调，失败回调，参数设置，后面两个参数可以不填写
+      //第三个参数: {timeout: number, failTipFlag: boolean} 
+      //分别表示超时时间，默认10s(自己更新时参数为ms)，失败后是否提示打开定位，
+      geolocation.getLocation((position: any) => {
+        console.log('position', position)
+        myMap.current.setCenter(new TMap.LatLng(position.lat, position.lng))
+      })
+      //连续监听定位回调方法
       geolocation.watchPosition(getPosition);
+      geolocation.clearWatch() //使用后退出页面，需要主动清除监听
     }).catch(err => {
       console.log('err', err)
     })
